@@ -165,9 +165,11 @@ router.put(
           .status(404)
           .json({ msg: 'Idea with this id does not exist.' });
       }
+      // Get user info
       const { username, profile_picture } = await Profile.findOne({
         user: req.user.id
       });
+      // Create new comment
       const comment = {
         user: req.user.id,
         text,
@@ -186,5 +188,67 @@ router.put(
     }
   }
 );
+
+// @route   PUT /api/ideas/idea/like/:id
+// @desc    Adds a like to the idea with id <id> if havent already liked
+// @access  Private
+router.put('/idea/like/:id', auth, async (req, res) => {
+  try {
+    // Check if idea exists
+    const idea = await Idea.findById(req.params.id);
+    if (!idea) {
+      return res.status(404).json({ msg: 'Idea with this id does not exist.' });
+    }
+    // Check if user already liked
+    if (
+      idea.likes.filter(like => like.user.toString() === req.user.id).length > 0
+    ) {
+      return res.status(400).json({ msg: 'Idea already liked' });
+    }
+    const user = req.user.id;
+    idea.likes.unshift({ user });
+    await idea.save();
+    return res.json(idea.likes);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Invalid idea id.' });
+    }
+    return res.status(500).send('Server Error');
+  }
+});
+
+// @route   PUT /api/ideas/idea/unlike/:id
+// @desc    Removes a like from the idea with id <id> if already liked
+// @access  Private
+router.put('/idea/unlike/:id', auth, async (req, res) => {
+  try {
+    // Check if idea exists
+    const idea = await Idea.findById(req.params.id);
+    if (!idea) {
+      return res.status(404).json({ msg: 'Idea with this id does not exist.' });
+    }
+    // Check if user hasn't already liked
+    if (
+      idea.likes.filter(like => like.user.toString() === req.user.id).length ===
+      0
+    ) {
+      return res.status(400).json({ msg: 'Idea is not liked' });
+    }
+    const user = req.user.id;
+    // Acquiring the index of the user to be removed
+    const index = idea.likes.map(like => like.user.toString()).indexOf(user);
+    // Removing the like
+    idea.likes.splice(index, 1);
+    await idea.save();
+    return res.json(idea.likes);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Invalid idea id.' });
+    }
+    return res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
