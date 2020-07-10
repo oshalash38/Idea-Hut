@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Profile = require('./Profile');
 
 const ideaSchema = new mongoose.Schema({
   user: {
@@ -52,6 +53,12 @@ const ideaSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
+});
+
+ideaSchema.pre('remove', async function(next) {
+  console.log(this._id);
+  await Profile.updateMany({}, { $pull: { my_ideas: this._id.toString() } });
+  next();
 });
 
 module.exports = mongoose.model('idea', ideaSchema);
