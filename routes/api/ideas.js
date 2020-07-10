@@ -251,4 +251,44 @@ router.put('/idea/unlike/:id', auth, async (req, res) => {
   }
 });
 
+// @route   DELETE /api/ideas/idea/:idea_id/:comment_id
+// @desc    Removes a comment with id <comment_id> from the idea with id <idea_id>
+// @access  Private
+router.delete('/idea/:idea_id/:comment_id', auth, async (req, res) => {
+  try {
+    // Check if idea exists
+    const idea = await Idea.findById(req.params.idea_id);
+    if (!idea) {
+      return res.status(404).json({ msg: 'Idea with this id does not exist.' });
+    }
+    // Check if comment exists
+    const comment = idea.comments.find(
+      comment => comment.id === req.params.comment_id
+    );
+    if (!comment) {
+      return res
+        .status(404)
+        .json({ msg: 'Comment with this id does not exist.' });
+    }
+    // Check if comment belongs to current user (autherized)
+    if (comment.user.toString() !== req.user.id) {
+      return res
+        .status(401)
+        .json({ msg: 'Unautherized to perform this action.' });
+    }
+    // Remove comment
+    const index = idea.comments
+      .map(comment => comment.user.toString())
+      .indexOf(req.user.id);
+    idea.comments.splice(index, 1);
+    idea.save();
+    res.json(idea.comments);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Invalid id.' });
+    }
+    return res.status(500).send('Server Error');
+  }
+});
 module.exports = router;
