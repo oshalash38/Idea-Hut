@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://oshalash38:OAMOMS2001@ideahut.so9ua.mongodb.net/<dbname>?retryWrites=true&w=majority",
+  "jwtSecret": "This is a super duper huge secret that no one in the entire world should know."
+}
