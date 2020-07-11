@@ -166,9 +166,10 @@ router.put(
           .json({ msg: 'Idea with this id does not exist.' });
       }
       // Get user info
-      const { username, profile_picture } = await Profile.findOne({
+      const userProfile = await Profile.findOne({
         user: req.user.id
       });
+      const { username, profile_picture } = userProfile;
       // Create new comment
       const comment = {
         user: req.user.id,
@@ -178,6 +179,14 @@ router.put(
       };
       idea.comments.unshift(comment);
       await idea.save();
+      // Add idea to interacted with ideas & check if its already there
+      const found = userProfile.interacted_with.find(currIdea => {
+        return currIdea.toString() === idea._id.toString();
+      });
+      if (!found) {
+        userProfile.interacted_with.push(idea);
+        await userProfile.save();
+      }
       res.json(idea.comments);
     } catch (err) {
       console.error(err.message);
@@ -208,6 +217,19 @@ router.put('/idea/like/:id', auth, async (req, res) => {
     const user = req.user.id;
     idea.likes.unshift({ user });
     await idea.save();
+    // Add idea to interacted with ideas & check if its already there
+    const userProfile = await Profile.findOne({
+      user
+    });
+    const found = userProfile.interacted_with.find(currIdea => {
+      return currIdea.toString() === idea._id.toString();
+    });
+    console.log(found);
+
+    if (!found) {
+      userProfile.interacted_with.push(idea);
+      await userProfile.save();
+    }
     return res.json(idea.likes);
   } catch (err) {
     console.error(err.message);
