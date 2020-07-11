@@ -313,4 +313,69 @@ router.delete('/idea/:idea_id/:comment_id', auth, async (req, res) => {
     return res.status(500).send('Server Error');
   }
 });
+
+// @route   PUT /api/ideas/idea/bookmark/:id
+// @desc    Bookmarks the idea with id <id> if it's already not bookmarked
+// @access  Private
+router.put('/idea/bookmark/:id', auth, async (req, res) => {
+  try {
+    // Check if idea exists
+    const idea = await Idea.findById(req.params.id);
+    if (!idea) {
+      return res.status(404).json({ msg: 'Idea with this id does not exist.' });
+    }
+    // Check if idea is already bookmarked
+    const userProfile = await Profile.findOne({ user: req.user.id });
+    const found = userProfile.bookmarked.find(
+      currIdea => currIdea.toString() === idea._id.toString()
+    );
+    if (found) {
+      return res.status(400).json({ msg: 'Idea already bookmarked' });
+    }
+    userProfile.bookmarked.push(idea);
+    await userProfile.save();
+    res.json(userProfile.bookmarked);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Invalid id.' });
+    }
+    return res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE /api/ideas/idea/bookmark/:id
+// @desc    Removes bookmark of the idea with id <id> if it's already bookmarked
+// @access  Private
+router.delete('/idea/bookmark/remove/:id', auth, async (req, res) => {
+  try {
+    // Check if idea exists
+    const idea = await Idea.findById(req.params.id);
+    if (!idea) {
+      return res.status(404).json({ msg: 'Idea with this id does not exist.' });
+    }
+    // Check if idea is not already bookmarked
+    const userProfile = await Profile.findOne({ user: req.user.id });
+    const found = userProfile.bookmarked.find(
+      currIdea => currIdea.toString() === idea._id.toString()
+    );
+    if (!found) {
+      return res.status(400).json({ msg: 'Idea is not bookmarked' });
+    }
+    // Get index to remove
+    const index = userProfile.bookmarked
+      .map(currIdea => currIdea.toString())
+      .indexOf(req.params.id);
+    userProfile.bookmarked.splice(index, 1);
+    await userProfile.save();
+    res.json(userProfile.bookmarked);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Invalid id.' });
+    }
+    return res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
