@@ -74,7 +74,7 @@ router.post('/', auth, upload.single('profile_picture'), async (req, res) => {
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const profiles = await Profile.find().populate('user', ['fName', 'lName']);
+    const profiles = await Profile.find();
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -89,7 +89,7 @@ router.get('/:userId', async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.userId
-    }).populate('user', ['fName', 'lName']);
+    });
     if (!profile) {
       return res.status(404).json({ msg: 'Profile does not exist' });
     }

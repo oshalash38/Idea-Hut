@@ -26,12 +26,6 @@ router.get('/', auth, async (req, res) => {
 router.post(
   '/signup',
   [
-    check('fName', 'First name is required')
-      .not()
-      .isEmpty(),
-    check('lName', 'Last name is required')
-      .not()
-      .isEmpty(),
     check('email', 'Enter a valid email').isEmail(),
     check('password', 'Enter a password with 6 or more characters').isLength({
       min: 6
@@ -42,7 +36,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { fName, lName, email, password } = req.body;
+    const { email, password } = req.body;
     try {
       // Verify user does not already exist
       let user = await User.findOne({ email: email });
@@ -53,8 +47,6 @@ router.post(
       }
       // Saving user to database
       user = new User({
-        fName,
-        lName,
         email,
         password
       });
