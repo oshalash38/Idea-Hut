@@ -1,9 +1,14 @@
 import React, { Fragment } from 'react';
 import { useState } from 'react';
 import { BlueButton } from '../buttons/BlueButton';
+import { signup } from '../../actions/auth';
+import { useDispatch } from 'react-redux';
+import { fireAlert } from '../../actions/alert';
+import { Alert } from '../layout/Alert';
 
 export const Signup = () => {
   const [step, setStep] = useState(1);
+  const dispatch = useDispatch();
   // Handling first Step
   const [formData1, setFormData1] = useState({
     email: '',
@@ -15,8 +20,14 @@ export const Signup = () => {
   };
   const handleFirstStep = e => {
     e.preventDefault();
-    setStep(2);
-    console.log(formData1);
+    if (formData1.password1 === formData1.password2) {
+      dispatch(
+        signup({ email: formData1.email, password: formData1.password1 })
+      );
+      setStep(2);
+    } else {
+      dispatch(fireAlert('danger', 'Passwords do not match.'));
+    }
   };
 
   // Handling second step
@@ -48,6 +59,7 @@ export const Signup = () => {
         {step === 1 ? (
           <Fragment>
             <h2 class='minor-heading'>Create your account</h2>
+            <Alert />
             <form onSubmit={handleFirstStep}>
               <div class='form-group'>
                 <label for='InputEmail1'>Email Address</label>
