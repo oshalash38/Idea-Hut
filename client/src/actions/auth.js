@@ -1,5 +1,6 @@
-import { SIGNUP_USER } from './types';
+import { SIGNUP_USER, AUTH_FAILURE } from './types';
 import api from '../utils/api';
+import { fireAlert } from './alert';
 
 // formData: {email, password}
 export const signup = formData => async dispatch => {
@@ -10,6 +11,13 @@ export const signup = formData => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    console.log('Registration failed');
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(fireAlert('danger', error.msg)));
+    }
+
+    dispatch({
+      type: AUTH_FAILURE
+    });
   }
 };

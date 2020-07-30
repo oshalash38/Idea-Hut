@@ -1,10 +1,10 @@
-import { SIGNUP_USER } from '../actions/types';
+import { SIGNUP_USER, AUTH_FAILURE } from '../actions/types';
 
 const initalState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   loading: true,
-  user: null
+  currUser: null
 };
 
 export default (state = initalState, action) => {
@@ -16,6 +16,14 @@ export default (state = initalState, action) => {
         token: payload.token,
         isAuthenticated: true,
         loading: false
+      };
+    case AUTH_FAILURE:
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        currUser: null
       };
     default:
       return state;

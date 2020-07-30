@@ -2,13 +2,14 @@ import React, { Fragment } from 'react';
 import { useState } from 'react';
 import { BlueButton } from '../buttons/BlueButton';
 import { signup } from '../../actions/auth';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fireAlert } from '../../actions/alert';
 import { Alert } from '../layout/Alert';
 
 export const Signup = () => {
   const [step, setStep] = useState(1);
   const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
   // Handling first Step
   const [formData1, setFormData1] = useState({
     email: '',
@@ -24,9 +25,11 @@ export const Signup = () => {
       dispatch(
         signup({ email: formData1.email, password: formData1.password1 })
       );
-      setStep(2);
     } else {
       dispatch(fireAlert('danger', 'Passwords do not match.'));
+    }
+    if (auth.isAuthenticated) {
+      setStep(2);
     }
   };
 
