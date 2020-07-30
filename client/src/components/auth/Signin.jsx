@@ -1,4 +1,5 @@
 import React from 'react';
+import { PinkButton } from '../buttons/PinkButton';
 
 export const Signin = () => {
   return (
@@ -32,9 +33,7 @@ export const Signin = () => {
             />
           </div>
           <a href='profile.html'>
-            <button type='submit' class='btn btn-pink'>
-              Sign in
-            </button>
+            <PinkButton text='Sign in' />
           </a>
         </form>
       </div>

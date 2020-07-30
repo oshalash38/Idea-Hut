@@ -373,3 +373,7 @@ ul {
   border-left: 3px solid grey;
   margin-left: 40px;
 }
+
+.input-group {
+  margin: 8px 0 8px 0;
+}
