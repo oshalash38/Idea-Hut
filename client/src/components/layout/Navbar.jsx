@@ -3,6 +3,7 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import test_img from '../../img/undraw_female_avatar_w3jk.svg';
 import { signout } from '../../actions/auth';
+import { PinkButton } from '../buttons/PinkButton';
 
 export const Navbar = () => {
   const history = useHistory();
@@ -34,6 +35,13 @@ export const Navbar = () => {
           <ul className='navbar-nav ml-auto mt-2 mt-lg-0'>
             {auth.isAuthenticated ? (
               <Fragment>
+                <li className='nav-item'>
+                  <PinkButton
+                    text='Compose Idea'
+                    submit={false}
+                    navBtn={true}
+                  />
+                </li>
                 <li className='nav-item'>
                   <div className='dropdown' style={{ float: 'left' }}>
                     <img

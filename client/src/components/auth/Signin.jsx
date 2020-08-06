@@ -62,7 +62,7 @@ export const Signin = () => {
             />
           </div>
           <a href='profile.html'>
-            <PinkButton text='Sign in' />
+            <PinkButton text='Sign in' submit={true} />
           </a>
         </form>
       </div>

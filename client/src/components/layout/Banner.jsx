@@ -6,7 +6,13 @@ import { useSelector } from 'react-redux';
 
 export const Banner = props => {
   const profile = useSelector(state => state.profile);
-  console.log(profile);
+  let b64 = null;
+  let mimeType = null;
+  if (profile.currProfile && profile.currProfile.profile_picture) {
+    const buffer = profile.currProfile.profile_picture;
+    b64 = new Buffer(buffer).toString('base64');
+    mimeType = 'image/jpeg';
+  }
 
   return (
     <Fragment>
@@ -63,7 +69,13 @@ export const Banner = props => {
       ) : (
         <div className='profile-top row'>
           <div className='p-3 col-lg-12'>
-            <img className='avatar' src={testAvatar} alt='' />
+            <img
+              className='avatar'
+              src={
+                mimeType && b64 ? `data:${mimeType};base64,${b64}` : testAvatar
+              }
+              alt=''
+            />
             <h1 className='major-heading'>{profile.currProfile.username}</h1>
             <p className='general-paragraph'>{profile.currProfile.bio}</p>
             {profile.currProfile.socials.website && (
