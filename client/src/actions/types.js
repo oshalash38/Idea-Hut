@@ -9,3 +9,6 @@ export const LOAD_USER = 'LOAD_USER';
 export const AUTH_FAILURE = 'AUTH_FAILURE';
 // Profile
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
+export const GET_PROFILE = 'GET_PROFILE';
+export const PROFILE_ERR = 'PROFILE_ERR';
+export const CLEAROUT_PROFILE = 'CLEAROUT_PROFILE';

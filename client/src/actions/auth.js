@@ -3,7 +3,8 @@ import {
   AUTH_FAILURE,
   LOAD_USER,
   SIGNIN_USER,
-  SIGNOUT_USER
+  SIGNOUT_USER,
+  CLEAROUT_PROFILE
 } from './types';
 import api from '../utils/api';
 import { fireAlert } from './alert';
@@ -77,5 +78,8 @@ export const signout = () => async dispatch => {
   delete localStorage.token;
   dispatch({
     type: SIGNOUT_USER
+  });
+  dispatch({
+    type: CLEAROUT_PROFILE
   });
 };

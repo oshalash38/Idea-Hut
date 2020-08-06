@@ -1,5 +1,6 @@
 import api, { apiFormData } from '../utils/api';
-import { UPDATE_PROFILE } from './types';
+import { UPDATE_PROFILE, PROFILE_ERR, GET_PROFILE } from './types';
+import { fireAlert } from './alert';
 
 // Creates or updates a profile
 export const createOrUpdateProfile = input => async dispatch => {
@@ -15,8 +16,37 @@ export const createOrUpdateProfile = input => async dispatch => {
       type: UPDATE_PROFILE,
       payload: res.data
     });
-  } catch (err) {}
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(fireAlert(error.msg, 'danger')));
+    }
+    dispatch({
+      type: PROFILE_ERR,
+      payload: {
+        msg: err.response.statusText + ': ' + err.response.data.msg,
+        status: err.response.status
+      }
+    });
+  }
 };
 
 // Gets current user's profile
-export const getCurrProfile = () => async dispatch => {};
+export const getCurrProfile = () => async dispatch => {
+  try {
+    const res = await api.get('/profile/me');
+    dispatch({ type: GET_PROFILE, payload: res.data });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(fireAlert(error.msg, 'danger')));
+    }
+    dispatch({
+      type: PROFILE_ERR,
+      payload: {
+        msg: err.response.statusText + ': ' + err.response.data.msg,
+        status: err.response.status
+      }
+    });
+  }
+};

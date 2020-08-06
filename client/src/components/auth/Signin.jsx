@@ -3,6 +3,7 @@ import { PinkButton } from '../buttons/PinkButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { signin } from '../../actions/auth';
+import { Alert } from '../layout/Alert';
 
 export const Signin = () => {
   const [formData, setFormData] = useState({
@@ -32,6 +33,7 @@ export const Signin = () => {
           Idea Hut
         </a>
         <h2 class='minor-heading'>Log in to your account</h2>
+        <Alert />
         <form onSubmit={handleSubmit}>
           <div class='form-group'>
             <label for='InputEmail1'>Email Address</label>
