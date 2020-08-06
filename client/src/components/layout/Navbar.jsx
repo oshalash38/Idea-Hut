@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import test_img from '../../img/undraw_female_avatar_w3jk.svg';
+import { signout } from '../../actions/auth';
 
 export const Navbar = () => {
   const location = useLocation();
+  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const handleSignOut = e => {
+    dispatch(signout());
+  };
   if (location.pathname !== '/signin' && location.pathname !== '/signup') {
     return (
       <nav className='navbar navbar-expand-lg navbar-light '>
@@ -17,25 +25,54 @@ export const Navbar = () => {
         >
           <span className='navbar-toggler-icon'></span>
         </button>
-        <a className='navbar-brand' href='#'>
+        <Link className='navbar-brand' to='/'>
           Idea Hut
-        </a>
+        </Link>
         <div className='collapse navbar-collapse' id='navbarTogglerDemo03'>
           <ul className='navbar-nav ml-auto mt-2 mt-lg-0'>
-            <li className='nav-item active'>
-              <Link to='/signup'>
-                <button className='btn btn-blue' type='button' name='button'>
-                  Sign up
-                </button>
-              </Link>
-            </li>
-            <li className='nav-item'>
-              <Link to='/signin'>
-                <button className='btn btn-pink' type='button' name='button'>
-                  Sign in
-                </button>
-              </Link>
-            </li>
+            {auth.isAuthenticated ? (
+              <Fragment>
+                <li className='nav-item'>
+                  <div className='dropdown' style={{ float: 'left' }}>
+                    <img
+                      src={test_img}
+                      alt='Avatar'
+                      class='avatar-sm dropdownbtn'
+                    />
+                    <div class='dropdown-content'>
+                      <Link to='/me'>My Profile</Link>
+                      <a href='#'>Link 2</a>
+                      <a onClick={handleSignOut}>Sign Out</a>
+                    </div>
+                  </div>
+                </li>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <li className='nav-item active'>
+                  <Link to='/signup'>
+                    <button
+                      className='btn btn-blue'
+                      type='button'
+                      name='button'
+                    >
+                      Sign up
+                    </button>
+                  </Link>
+                </li>
+                <li className='nav-item'>
+                  <Link to='/signin'>
+                    <button
+                      className='btn btn-pink'
+                      type='button'
+                      name='button'
+                    >
+                      Sign in
+                    </button>
+                  </Link>
+                </li>
+              </Fragment>
+            )}
           </ul>
         </div>
       </nav>

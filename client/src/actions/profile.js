@@ -1,5 +1,6 @@
 import api, { apiFormData } from '../utils/api';
 import { UPDATE_PROFILE } from './types';
+
 // Creates or updates a profile
 export const createOrUpdateProfile = input => async dispatch => {
   try {
@@ -16,3 +17,6 @@ export const createOrUpdateProfile = input => async dispatch => {
     });
   } catch (err) {}
 };
+
+// Gets current user's profile
+export const getCurrProfile = () => async dispatch => {};

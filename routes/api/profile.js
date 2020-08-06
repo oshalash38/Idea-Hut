@@ -87,10 +87,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route   GET /api/profile/:userId
+// @route   GET /api/profile/id/:userId
 // @desc    Gets the profile of the user with <userId>
 // @access  Public
-router.get('/:userId', async (req, res) => {
+router.get('/id/:userId', async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.userId
@@ -108,11 +108,22 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-// @route   PUT /api/profile/my_ideas
-// @desc    Adds a new idea to profile's ideas
+// @route   GET /api/profile/me
+// @desc    Gets current user's profile
 // @access  Private
-router.put('/my_ideas', auth, async (req, res) => {
-  // @todo: probably will do this in ideas file
+router.get('/me', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    if (!profile) {
+      return res
+        .status(404)
+        .json({ msg: 'This user does not have a profile yet' });
+    }
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ msg: 'Server error' });
+  }
 });
 
 module.exports = router;

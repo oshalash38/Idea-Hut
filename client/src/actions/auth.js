@@ -1,4 +1,10 @@
-import { SIGNUP_USER, AUTH_FAILURE, LOAD_USER, SIGNIN_USER } from './types';
+import {
+  SIGNUP_USER,
+  AUTH_FAILURE,
+  LOAD_USER,
+  SIGNIN_USER,
+  SIGNOUT_USER
+} from './types';
 import api from '../utils/api';
 import { fireAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
@@ -63,4 +69,13 @@ export const loadCurrUser = () => async dispatch => {
       type: AUTH_FAILURE
     });
   }
+};
+
+// Signs out logged in user
+export const signout = () => async dispatch => {
+  // Remove jwt from localstorage
+  delete localStorage.token;
+  dispatch({
+    type: SIGNOUT_USER
+  });
 };

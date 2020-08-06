@@ -4,6 +4,7 @@ export const REMOVE_ALERT = 'REMOVE_ALERT';
 // Authentication
 export const SIGNUP_USER = 'SIGNUP_USER';
 export const SIGNIN_USER = 'SIGNIN_USER';
+export const SIGNOUT_USER = 'SIGNOUT_USER';
 export const LOAD_USER = 'LOAD_USER';
 export const AUTH_FAILURE = 'AUTH_FAILURE';
 // Profile

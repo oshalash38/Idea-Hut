@@ -2,7 +2,8 @@ import {
   SIGNUP_USER,
   AUTH_FAILURE,
   LOAD_USER,
-  SIGNIN_USER
+  SIGNIN_USER,
+  SIGNOUT_USER
 } from '../actions/types';
 
 const initalState = {
@@ -31,6 +32,7 @@ export default (state = initalState, action) => {
         loading: false
       };
     case AUTH_FAILURE:
+    case SIGNOUT_USER:
       return {
         ...state,
         token: null,
