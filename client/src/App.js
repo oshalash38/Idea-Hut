@@ -7,7 +7,6 @@ import { Signin } from './components/auth/Signin';
 import { Signup } from './components/auth/Signup';
 import { Provider } from 'react-redux';
 import store from './store';
-import setAuthToken from './utils/setAuthToken';
 import { loadCurrUser } from './actions/auth';
 
 const App = () => {

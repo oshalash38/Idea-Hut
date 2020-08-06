@@ -1,4 +1,9 @@
-import { SIGNUP_USER, AUTH_FAILURE, LOAD_USER } from '../actions/types';
+import {
+  SIGNUP_USER,
+  AUTH_FAILURE,
+  LOAD_USER,
+  SIGNIN_USER
+} from '../actions/types';
 
 const initalState = {
   token: localStorage.getItem('token'),
@@ -18,6 +23,7 @@ export default (state = initalState, action) => {
         currUser: payload
       };
     case SIGNUP_USER:
+    case SIGNIN_USER:
       return {
         ...state,
         token: payload.token,
