@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { useState, useEffect } from 'react';
 import { BlueButton } from '../buttons/BlueButton';
 import { signup } from '../../actions/auth';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fireAlert } from '../../actions/alert';
 import { Alert } from '../layout/Alert';
 import { createOrUpdateProfile } from '../../actions/profile';
@@ -35,7 +35,6 @@ export const Signup = () => {
   };
 
   useEffect(() => {
-    console.log(auth.isAuthenticated);
     if (auth.isAuthenticated) {
       setStep(2);
     }
@@ -162,7 +161,7 @@ export const Signup = () => {
               <div className='input-group'>
                 <div className='input-group-prepend'>
                   <div className='input-group-text'>
-                    <i className='fas fa-link'></i>
+                    <i class='fas fa-globe'></i>
                   </div>
                 </div>
                 <input

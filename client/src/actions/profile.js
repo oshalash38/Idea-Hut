@@ -50,3 +50,24 @@ export const getCurrProfile = () => async dispatch => {
     });
   }
 };
+
+// Gets user's profile by its id
+export const getProfileById = id => async dispatch => {
+  try {
+    const res = await api.get(`/profile/id/${id}`);
+    console.log(res);
+    dispatch({ type: GET_PROFILE, payload: res.data });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(fireAlert(error.msg, 'danger')));
+    }
+    dispatch({
+      type: PROFILE_ERR,
+      payload: {
+        msg: err.response.statusText + ': ' + err.response.data.msg,
+        status: err.response.status
+      }
+    });
+  }
+};

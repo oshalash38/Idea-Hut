@@ -9,12 +9,12 @@ export const Home = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCurrProfile());
-  }, []);
+  }, [dispatch]);
   const auth = useSelector(state => state.auth);
   return (
     <div>
       <Banner color={auth.isAuthenticated ? 'blue' : 'pink'} />
-      <CatBar />
+      <CatBar page='home' />
       <IdeaList />
     </div>
   );

@@ -1,15 +1,17 @@
 import React, { Fragment } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import test_img from '../../img/undraw_female_avatar_w3jk.svg';
 import { signout } from '../../actions/auth';
 
 export const Navbar = () => {
+  const history = useHistory();
   const location = useLocation();
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const handleSignOut = e => {
     dispatch(signout());
+    history.push('/');
   };
   if (location.pathname !== '/signin' && location.pathname !== '/signup') {
     return (
@@ -37,10 +39,14 @@ export const Navbar = () => {
                     <img
                       src={test_img}
                       alt='Avatar'
-                      class='avatar-sm dropdownbtn'
+                      className='avatar-sm dropdownbtn'
                     />
-                    <div class='dropdown-content'>
-                      <Link to='/me'>My Profile</Link>
+                    <div className='dropdown-content'>
+                      <Link
+                        to={auth.currUser && `/profile/${auth.currUser._id}`}
+                      >
+                        My Profile
+                      </Link>
                       <a href='#'>Link 2</a>
                       <a onClick={handleSignOut}>Sign Out</a>
                     </div>

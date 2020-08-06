@@ -1,8 +1,13 @@
 import React, { Fragment } from 'react';
 import img1 from '../../img/undraw_ideas_flow_cy7b.svg';
 import img2 from '../../img/undraw_forming_ideas_0pav.svg';
+import testAvatar from '../../img/undraw_male_avatar_323b.svg';
+import { useSelector } from 'react-redux';
 
 export const Banner = props => {
+  const profile = useSelector(state => state.profile);
+  console.log(profile);
+
   return (
     <Fragment>
       <div className='thick-line'></div>
@@ -31,7 +36,7 @@ export const Banner = props => {
             </div>
           </div>
         </Fragment>
-      ) : (
+      ) : props.color === 'pink' ? (
         <div className='landing row'>
           <div className='p-5 col-lg-6'>
             <h1 className='major-heading'>Discover your next project idea.</h1>
@@ -53,6 +58,32 @@ export const Banner = props => {
               src={img2}
               alt='illustration'
             />
+          </div>
+        </div>
+      ) : (
+        <div className='profile-top row'>
+          <div className='p-3 col-lg-12'>
+            <img className='avatar' src={testAvatar} alt='' />
+            <h1 className='major-heading'>{profile.currProfile.username}</h1>
+            <p className='general-paragraph'>{profile.currProfile.bio}</p>
+            {profile.currProfile.socials.website && (
+              <i class='fas fa-globe fa-2x p-1'></i>
+            )}
+            {profile.currProfile.socials.github && (
+              <i class='fab fa-github fa-2x p-1'></i>
+            )}
+            {profile.currProfile.socials.facebook && (
+              <i class='fab fa-facebook fa-2x p-1'></i>
+            )}
+            {profile.currProfile.socials.twitter && (
+              <i className='fab fa-twitter fa-2x p-1'></i>
+            )}
+            {profile.currProfile.socials.youtube && (
+              <i class='fab fa-youtube fa-2x p-1'></i>
+            )}
+            {profile.currProfile.socials.linkedin && (
+              <i class='fab fa-linkedin fa-2x p-1'></i>
+            )}
           </div>
         </div>
       )}
