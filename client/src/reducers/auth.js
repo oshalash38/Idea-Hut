@@ -1,4 +1,4 @@
-import { SIGNUP_USER, AUTH_FAILURE } from '../actions/types';
+import { SIGNUP_USER, AUTH_FAILURE, LOAD_USER } from '../actions/types';
 
 const initalState = {
   token: localStorage.getItem('token'),
@@ -10,6 +10,13 @@ const initalState = {
 export default (state = initalState, action) => {
   const { type, payload } = action;
   switch (type) {
+    case LOAD_USER:
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        currUser: payload
+      };
     case SIGNUP_USER:
       return {
         ...state,

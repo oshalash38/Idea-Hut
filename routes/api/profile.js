@@ -36,9 +36,14 @@ router.post('/', auth, upload.single('profile_picture'), async (req, res) => {
     const fields = {
       user: req.user.id,
       bio: bio,
-      profile_picture: req.file.buffer,
       username: username
     };
+
+    if (req.file) {
+      fields.profile_picture = req.file.buffer;
+    } else {
+      fields.profile_picture = null;
+    }
 
     const socialLinks = {
       website,

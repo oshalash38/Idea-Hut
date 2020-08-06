@@ -8,3 +8,10 @@ const api = axios.create({
 });
 
 export default api;
+
+export const apiFormData = axios.create({
+  baseURL: '/api',
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+});
