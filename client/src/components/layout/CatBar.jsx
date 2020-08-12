@@ -34,7 +34,7 @@ export const CatBar = props => {
         </a>
       </li>
     </ul>
-  ) : (
+  ) : props.page === 'profile' ? (
     <ul class='nav justify-content-center cat-bar'>
       <li class='nav-item'>
         <a class='nav-link link-active' href='#'>
@@ -49,6 +49,19 @@ export const CatBar = props => {
       <li class='nav-item'>
         <a class='nav-link' href='#'>
           Bookmarked Ideas
+        </a>
+      </li>
+    </ul>
+  ) : (
+    <ul class='nav justify-content-center cat-bar'>
+      <li class='nav-item'>
+        <a class='nav-link' href='#'>
+          Detailed Description
+        </a>
+      </li>
+      <li class='nav-item'>
+        <a class='nav-link link-active' href='#'>
+          Discussion
         </a>
       </li>
     </ul>

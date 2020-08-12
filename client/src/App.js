@@ -10,6 +10,8 @@ import store from './store';
 import { loadCurrUser } from './actions/auth';
 import { Profile } from './components/profile/Profile';
 import { Spinner } from './components/layout/Spinner';
+import { IdeaForm } from './components/idea_form/IdeaForm';
+import { Idea } from './components/ideas/Idea';
 
 const AppWrapper = () => {
   return (
@@ -34,6 +36,8 @@ const App = () => {
           <Route exact path='/signin' component={Signin} />
           <Route exact path='/signup' component={Signup} />
           <Route exact path='/profile/:id' component={Profile} />
+          <Route exact path='/compose' component={IdeaForm} />
+          <Route exact path='/ideas/:id' component={Idea} />
         </Switch>
       </Fragment>
     </Router>

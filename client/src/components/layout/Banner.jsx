@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import img1 from '../../img/undraw_ideas_flow_cy7b.svg';
 import img2 from '../../img/undraw_forming_ideas_0pav.svg';
+import img3 from '../../img/undraw_new_ideas_jdea.svg';
 import testAvatar from '../../img/undraw_male_avatar_323b.svg';
 import { useSelector } from 'react-redux';
 
@@ -66,7 +67,7 @@ export const Banner = props => {
             />
           </div>
         </div>
-      ) : (
+      ) : props.color === 'purple' ? (
         <div className='profile-top row'>
           <div className='p-3 col-lg-12'>
             <img
@@ -96,6 +97,49 @@ export const Banner = props => {
             {profile.currProfile.socials.linkedin && (
               <i class='fab fa-linkedin fa-2x p-1'></i>
             )}
+          </div>
+        </div>
+      ) : (
+        <div class='idea-top row p-5'>
+          <div class='col-lg-6'>
+            <h1 class='major-heading'>Idea Name</h1>
+            <p class='general-paragraph'>
+              This is the idea description where the user will briefly talk
+              about the idea.
+            </p>
+            <h2>
+              <span class='badge purple'>Web Applications</span>
+            </h2>
+            <div class='top-padding'>
+              <div class='top-padding'>
+                <i class='fab fa-gratipay fa-2x'></i>
+                <span class='side-number'> 5</span>
+                <br />
+                <div class='top-padding'>
+                  <i class='fas fa-comments fa-2x'></i>
+                  <span class='side-number'> 3</span>
+                </div>
+              </div>
+            </div>
+            <div class='top-padding-some'>
+              <a href='signup.html'>
+                <button
+                  class='btn btn-blue right-margin'
+                  type='button'
+                  name='button'
+                >
+                  Bookmark
+                </button>
+              </a>
+              <a href='signin.html'>
+                <button class='btn btn-pink' type='button' name='button'>
+                  I'll Do It!
+                </button>
+              </a>
+            </div>
+          </div>
+          <div class='col-lg-6'>
+            <img class='landing-img xsm-size' src={img3} alt='' />
           </div>
         </div>
       )}

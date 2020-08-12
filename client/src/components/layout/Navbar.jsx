@@ -37,6 +37,9 @@ export const Navbar = () => {
               <Fragment>
                 <li className='nav-item'>
                   <PinkButton
+                    onClick={e => {
+                      history.push('/compose');
+                    }}
                     text='Compose Idea'
                     submit={false}
                     navBtn={true}
@@ -55,7 +58,7 @@ export const Navbar = () => {
                       >
                         My Profile
                       </Link>
-                      <a href='#'>Link 2</a>
+                      <a href='#'>Edit Profile</a>
                       <a onClick={handleSignOut}>Sign Out</a>
                     </div>
                   </div>
