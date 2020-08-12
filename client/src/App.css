@@ -6,6 +6,11 @@ a:hover {
   color: #355c7d;
 }
 
+span:hover {
+  color: #355c7d;
+  cursor: pointer;
+}
+
 ul {
   list-style-type: none;
 }

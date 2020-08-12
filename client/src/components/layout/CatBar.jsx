@@ -1,6 +1,14 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 export const CatBar = props => {
+  const ideas = useSelector(state => state.ideas);
+  const handleClick = e => {
+    props.setIdeaIndex &&
+      props.setIdeaIndex(Number(e.target.getAttribute('name')));
+    props.setProfileIndex &&
+      props.setProfileIndex(Number(e.target.getAttribute('name')));
+  };
   return props.page === 'home' ? (
     <ul className='nav justify-content-center cat-bar'>
       <li className='nav-item'>
@@ -37,32 +45,62 @@ export const CatBar = props => {
   ) : props.page === 'profile' ? (
     <ul class='nav justify-content-center cat-bar'>
       <li class='nav-item'>
-        <a class='nav-link link-active' href='#'>
+        <span
+          name='0'
+          onClick={handleClick}
+          className={
+            props.profileIndex === 0 ? 'nav-link link-active' : 'nav-link'
+          }
+        >
           Interacted With
-        </a>
+        </span>
       </li>
       <li class='nav-item'>
-        <a class='nav-link' href='#'>
+        <span
+          name='1'
+          onClick={handleClick}
+          className={
+            props.profileIndex === 1 ? 'nav-link link-active' : 'nav-link'
+          }
+        >
           My Ideas
-        </a>
+        </span>
       </li>
       <li class='nav-item'>
-        <a class='nav-link' href='#'>
+        <span
+          name='2'
+          onClick={handleClick}
+          className={
+            props.profileIndex === 2 ? 'nav-link link-active' : 'nav-link'
+          }
+        >
           Bookmarked Ideas
-        </a>
+        </span>
       </li>
     </ul>
   ) : (
     <ul class='nav justify-content-center cat-bar'>
       <li class='nav-item'>
-        <a class='nav-link' href='#'>
+        <span
+          name='0'
+          onClick={handleClick}
+          className={
+            props.ideaIndex === 0 ? 'nav-link link-active' : 'nav-link'
+          }
+        >
           Detailed Description
-        </a>
+        </span>
       </li>
       <li class='nav-item'>
-        <a class='nav-link link-active' href='#'>
+        <span
+          name='1'
+          className={
+            props.ideaIndex === 1 ? 'nav-link link-active' : 'nav-link'
+          }
+          onClick={handleClick}
+        >
           Discussion
-        </a>
+        </span>
       </li>
     </ul>
   );

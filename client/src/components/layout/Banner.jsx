@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 
 export const Banner = props => {
   const profile = useSelector(state => state.profile);
+  const ideas = useSelector(state => state.ideas);
   let b64 = null;
   let mimeType = null;
   if (profile.currProfile && profile.currProfile.profile_picture) {
@@ -102,22 +103,22 @@ export const Banner = props => {
       ) : (
         <div class='idea-top row p-5'>
           <div class='col-lg-6'>
-            <h1 class='major-heading'>Idea Name</h1>
-            <p class='general-paragraph'>
-              This is the idea description where the user will briefly talk
-              about the idea.
-            </p>
+            <h1 class='major-heading'>{ideas.currIdea.title}</h1>
+            <p class='general-paragraph'>{ideas.currIdea.shortDescription}</p>
             <h2>
-              <span class='badge purple'>Web Applications</span>
+              <span class='badge purple'>{ideas.currIdea.category}</span>
             </h2>
             <div class='top-padding'>
               <div class='top-padding'>
                 <i class='fab fa-gratipay fa-2x'></i>
-                <span class='side-number'> 5</span>
+                <span class='side-number'> {ideas.currIdea.likes.length}</span>
                 <br />
                 <div class='top-padding'>
                   <i class='fas fa-comments fa-2x'></i>
-                  <span class='side-number'> 3</span>
+                  <span class='side-number'>
+                    {' '}
+                    {ideas.currIdea.comments.length}
+                  </span>
                 </div>
               </div>
             </div>

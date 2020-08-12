@@ -61,9 +61,8 @@ export const Signin = () => {
               onChange={handleChange}
             />
           </div>
-          <a href='profile.html'>
-            <PinkButton text='Sign in' submit={true} />
-          </a>
+
+          <PinkButton text='Sign in' submit={true} />
         </form>
       </div>
       <div class='col-6 right-auth'></div>

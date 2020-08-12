@@ -29,7 +29,7 @@ export const IdeaForm = () => {
     if (ideas.currIdea) {
       history.push(`/ideas/${ideas.currIdea._id}`);
     }
-  }, [ideas.currIdea]);
+  }, [ideas.currIdea, history]);
 
   const handleSubmit = async e => {
     e.preventDefault();

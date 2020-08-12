@@ -1,4 +1,9 @@
-import { COMPOSE_IDEA } from '../actions/types';
+import {
+  COMPOSE_IDEA,
+  CLEAR_CURR_IDEA,
+  GET_IDEAS_BY_ID,
+  GET_IDEA
+} from '../actions/types';
 
 const initialState = {
   ideas: [],
@@ -15,6 +20,16 @@ export default (state = initialState, action) => {
         ...state,
         ideas: [payload, ...state.ideas],
         currIdea: payload,
+        loading: false
+      };
+    case GET_IDEA:
+      return { ...state, currIdea: payload, loading: false };
+    case GET_IDEAS_BY_ID:
+      return { ...state, ideas: payload, loading: false };
+    case CLEAR_CURR_IDEA:
+      return {
+        ...state,
+        currIdea: null,
         loading: false
       };
     default:

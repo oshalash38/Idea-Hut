@@ -55,7 +55,6 @@ export const getCurrProfile = () => async dispatch => {
 export const getProfileById = id => async dispatch => {
   try {
     const res = await api.get(`/profile/id/${id}`);
-    console.log(res);
     dispatch({ type: GET_PROFILE, payload: res.data });
   } catch (err) {
     const errors = err.response.data.errors;
