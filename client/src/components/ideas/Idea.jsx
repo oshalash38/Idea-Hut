@@ -15,7 +15,7 @@ export const Idea = ({ match }) => {
     return () => {
       dispatch({ type: CLEAR_CURR_IDEA });
     };
-  }, [dispatch]);
+  }, [dispatch, match.params.id]);
   if (ideas.loading || !ideas.currIdea) {
     return <Spinner />;
   }

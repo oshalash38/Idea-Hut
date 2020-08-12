@@ -2,7 +2,8 @@ import {
   COMPOSE_IDEA,
   CLEAR_CURR_IDEA,
   GET_IDEAS_BY_ID,
-  GET_IDEA
+  GET_IDEA,
+  IDEA_ERR
 } from '../actions/types';
 
 const initialState = {
@@ -20,7 +21,8 @@ export default (state = initialState, action) => {
         ...state,
         ideas: [payload, ...state.ideas],
         currIdea: payload,
-        loading: false
+        loading: false,
+        errors: {}
       };
     case GET_IDEA:
       return { ...state, currIdea: payload, loading: false };
@@ -32,6 +34,8 @@ export default (state = initialState, action) => {
         currIdea: null,
         loading: false
       };
+    case IDEA_ERR:
+      return { ...state, currIdea: null, errors: payload, loading: false };
     default:
       return state;
   }

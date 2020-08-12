@@ -6,6 +6,7 @@ import { composeIdea } from '../../actions/ideas';
 import { useHistory } from 'react-router-dom';
 import { Spinner } from '../layout/Spinner';
 import { Alert } from '../layout/Alert';
+import { CLEAR_CURR_IDEA } from '../../actions/types';
 
 export const IdeaForm = () => {
   const dispatch = useDispatch();
@@ -25,16 +26,27 @@ export const IdeaForm = () => {
       setFormData({ ...formData, detailedDescription: e });
     }
   };
+
+  // useEffect(() => {
+  //   dispatch({ type: CLEAR_CURR_IDEA });
+  // }, []);
   useEffect(() => {
     if (ideas.currIdea) {
       history.push(`/ideas/${ideas.currIdea._id}`);
     }
   }, [ideas.currIdea, history]);
 
+  useEffect(() => {
+    if (ideas.errors) {
+      setSubmitted(false);
+      console.log('fi errors');
+    }
+  }, [ideas.errors]);
+
   const handleSubmit = async e => {
     e.preventDefault();
-    dispatch(composeIdea(formData, history));
     setSubmitted(true);
+    dispatch(composeIdea(formData));
   };
 
   return submitted ? (
