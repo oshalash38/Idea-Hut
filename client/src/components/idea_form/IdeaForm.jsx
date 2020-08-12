@@ -17,6 +17,7 @@ export const IdeaForm = () => {
     detailedDescription: '',
     category: ''
   });
+  const [submitted, setSubmitted] = useState(false);
   const handleChange = e => {
     if (e.target) {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,14 +25,21 @@ export const IdeaForm = () => {
       setFormData({ ...formData, detailedDescription: e });
     }
   };
+  useEffect(() => {
+    if (ideas.currIdea) {
+      history.push(`/ideas/${ideas.currIdea._id}`);
+    }
+  }, [ideas.currIdea]);
 
   const handleSubmit = async e => {
     e.preventDefault();
     dispatch(composeIdea(formData, history));
-    console.log('im here');
-    // history.push(`/ideas/${ideas.currIdea._id}`);
+    setSubmitted(true);
   };
-  return (
+
+  return submitted ? (
+    <Spinner />
+  ) : (
     <div className='p-3'>
       <h1 className='minor-heading'>Compose a new idea</h1>
       <Alert />
