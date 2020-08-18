@@ -94,7 +94,10 @@ router.get('/id/:userId', async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.userId
-    });
+    })
+      .populate('my_ideas')
+      .populate('interacted_with')
+      .populate('bookmarked');
     if (!profile) {
       return res.status(404).json({ msg: 'Profile does not exist' });
     }

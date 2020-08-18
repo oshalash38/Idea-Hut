@@ -1,13 +1,17 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import img1 from '../../img/undraw_ideas_flow_cy7b.svg';
 import img2 from '../../img/undraw_forming_ideas_0pav.svg';
 import img3 from '../../img/undraw_new_ideas_jdea.svg';
 import testAvatar from '../../img/undraw_male_avatar_323b.svg';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { likeIdea, bookmarkIdea } from '../../actions/ideas';
+import { getProfileById } from '../../actions/profile';
 
 export const Banner = props => {
+  const dispatch = useDispatch();
   const profile = useSelector(state => state.profile);
   const ideas = useSelector(state => state.ideas);
+  const auth = useSelector(state => state.auth);
   let b64 = null;
   let mimeType = null;
   if (profile.currProfile && profile.currProfile.profile_picture) {
@@ -15,6 +19,15 @@ export const Banner = props => {
     b64 = new Buffer(buffer).toString('base64');
     mimeType = 'image/jpeg';
   }
+
+  const like = e => {
+    dispatch(likeIdea(ideas.currIdea._id));
+  };
+
+  const handleBookmarked = e => {
+    dispatch(bookmarkIdea(ideas.currIdea._id));
+    props.setBookmarked(true);
+  };
 
   return (
     <Fragment>
@@ -112,31 +125,38 @@ export const Banner = props => {
             </h2>
             <div className='top-padding'>
               <div className='top-padding'>
-                <i className='fab fa-gratipay fa-2x'></i>
+                <i
+                  className='fab fa-gratipay fa-2x local-btn'
+                  onClick={like}
+                ></i>
                 <span className='side-number'>
                   {' '}
                   {ideas.currIdea.likes.length}
                 </span>
-                <br />
-                <div className='top-padding'>
-                  <i className='fas fa-comments fa-2x'></i>
-                  <span className='side-number'>
-                    {' '}
-                    {ideas.currIdea.comments.length}
-                  </span>
-                </div>
+              </div>
+              <div className='top-padding'>
+                <i className='fas fa-comments fa-2x'></i>
+                <span className='side-number'>
+                  {' '}
+                  {ideas.currIdea.comments.length}
+                </span>
               </div>
             </div>
             <div className='top-padding-some'>
-              <a href='signup.html'>
-                <button
-                  className='btn btn-blue right-margin'
-                  type='button'
-                  name='button'
-                >
-                  Bookmark
-                </button>
-              </a>
+              <span>
+                {props.bookmarked ? (
+                  <div>Bookmarked</div>
+                ) : (
+                  <button
+                    className='btn btn-blue right-margin'
+                    type='button'
+                    name='button'
+                    onClick={handleBookmarked}
+                  >
+                    Bookmark
+                  </button>
+                )}
+              </span>
               <a href='signin.html'>
                 <button className='btn btn-pink' type='button' name='button'>
                   I'll Do It!

@@ -6,11 +6,6 @@ a:hover {
   color: #355c7d;
 }
 
-span:hover {
-  color: #355c7d;
-  cursor: pointer;
-}
-
 ul {
   list-style-type: none;
 }
@@ -33,6 +28,10 @@ ul {
 
 .bottom-margin {
   margin-bottom: 40px;
+}
+
+.top-margin {
+  margin-top: 40px;
 }
 
 .top-padding-alot {
@@ -392,6 +391,11 @@ ul {
 
 .inline {
   display: inline-block;
+}
+
+.local-btn:hover {
+  color: #355c7d;
+  cursor: pointer;
 }
 
 .title-button {

@@ -4,7 +4,10 @@ import {
   GET_IDEAS_BY_ID,
   GET_IDEA,
   IDEA_ERR,
-  GET_ALL_IDEAS
+  GET_ALL_IDEAS,
+  LIKE_IDEA,
+  UPDATE_LIKE,
+  UPDATE_BOOKMARK
 } from '../actions/types';
 
 const initialState = {
@@ -30,6 +33,12 @@ export default (state = initialState, action) => {
     case GET_IDEAS_BY_ID:
     case GET_ALL_IDEAS:
       return { ...state, ideas: payload, loading: false };
+    case UPDATE_LIKE:
+      return {
+        ...state,
+        currIdea: { ...state.currIdea, likes: payload },
+        loading: false
+      };
     case CLEAR_CURR_IDEA:
       return {
         ...state,

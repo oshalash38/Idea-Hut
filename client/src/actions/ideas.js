@@ -4,9 +4,13 @@ import {
   GET_IDEAS_BY_ID,
   GET_IDEA,
   IDEA_ERR,
-  GET_ALL_IDEAS
+  GET_ALL_IDEAS,
+  LIKE_IDEA,
+  UPDATE_LIKE,
+  UPDATE_BOOKMARK
 } from './types';
 import { fireAlert } from './alert';
+import { getProfileById } from './profile';
 
 // Compose a new idea
 export const composeIdea = formData => async dispatch => {
@@ -67,6 +71,40 @@ export const getAllIdeas = () => async dispatch => {
   try {
     const res = await api.get('/ideas/all');
     dispatch({ type: GET_ALL_IDEAS, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: IDEA_ERR,
+      payload: {
+        msg: err.response.statusText + ': ' + err.response.data.msg,
+        status: err.response.status
+      }
+    });
+  }
+};
+
+// Likes an idea
+export const likeIdea = id => async dispatch => {
+  try {
+    const res = await api.put(`/ideas/idea/like/${id}`);
+    dispatch({ type: UPDATE_LIKE, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: IDEA_ERR,
+      payload: {
+        msg: err.response.statusText + ': ' + err.response.data.msg,
+        status: err.response.status
+      }
+    });
+  }
+};
+
+// Unlikes an idea
+
+// Bookmarks an idea
+export const bookmarkIdea = id => async dispatch => {
+  try {
+    const res = await api.put(`/ideas/idea/bookmark/${id}`);
+    dispatch({ type: UPDATE_BOOKMARK, payload: res.data });
   } catch (err) {
     dispatch({
       type: IDEA_ERR,

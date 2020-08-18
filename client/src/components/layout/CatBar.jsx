@@ -22,7 +22,9 @@ export const CatBar = props => {
         <li className='nav-item' key={index}>
           <span
             className={
-              props.homeIndex === index ? 'nav-link link-active' : 'nav-link'
+              props.homeIndex === index
+                ? 'nav-link link-active'
+                : 'nav-link local-btn'
             }
             onClick={handleClick}
             name={index}
@@ -40,7 +42,9 @@ export const CatBar = props => {
             name={index}
             onClick={handleClick}
             className={
-              props.profileIndex === index ? 'nav-link link-active' : 'nav-link'
+              props.profileIndex === index
+                ? 'nav-link link-active'
+                : 'nav-link local-btn'
             }
           >
             {category}
@@ -56,7 +60,9 @@ export const CatBar = props => {
             name={index}
             onClick={handleClick}
             className={
-              props.ideaIndex === index ? 'nav-link link-active' : 'nav-link'
+              props.ideaIndex === index
+                ? 'nav-link link-active'
+                : 'nav-link local-btn'
             }
           >
             {category}

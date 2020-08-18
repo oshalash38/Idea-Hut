@@ -7,6 +7,7 @@ import { Spinner } from '../layout/Spinner';
 import { Signup } from '../auth/Signup';
 import { IdeaList } from '../layout/IdeaList';
 import { getIdeasByIds } from '../../actions/ideas';
+import { RESET_LOADING } from '../../actions/types';
 
 export const Profile = ({ match }) => {
   const dispatch = useDispatch();
@@ -23,13 +24,18 @@ export const Profile = ({ match }) => {
 
   useEffect(() => {
     if (profile.currProfile) {
-      dispatch(getIdeasByIds(profile.currProfile.my_ideas));
+      // dispatch(getIdeasByIds(profile.currProfile.my_ideas));
     }
   }, [profile.currProfile, dispatch]);
+  useEffect(() => {
+    return () => {
+      dispatch({ type: RESET_LOADING });
+    };
+  }, [dispatch]);
+
   if (profile.loading) {
     return <Spinner />;
   }
-  // console.log(profile.currProfile.my_ideas);
 
   return (
     <Fragment>
@@ -40,11 +46,11 @@ export const Profile = ({ match }) => {
         setProfileIndex={setProfileIndex}
       />
       {profileIndex === 0 ? (
-        <div></div>
+        <IdeaList ideas={profile.currProfile.interacted_with} />
       ) : profileIndex === 1 ? (
-        <IdeaList ideas={ideas.ideas} />
+        <IdeaList ideas={profile.currProfile.my_ideas} />
       ) : (
-        <div></div>
+        <IdeaList ideas={profile.currProfile.bookmarked} />
       )}
     </Fragment>
   );
