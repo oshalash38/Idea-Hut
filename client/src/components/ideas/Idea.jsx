@@ -11,6 +11,8 @@ export const Idea = ({ match }) => {
   const ideas = useSelector(state => state.ideas);
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log('aywa');
+
     dispatch(getIdeaById(match.params.id));
     return () => {
       dispatch({ type: CLEAR_CURR_IDEA });

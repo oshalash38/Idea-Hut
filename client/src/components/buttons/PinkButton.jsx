@@ -5,7 +5,7 @@ export const PinkButton = props => {
     <button
       onClick={props.onClick}
       type={props.submit && 'submit'}
-      class='btn btn-pink'
+      className='btn btn-pink'
       style={props.navBtn && { marginTop: '7px' }}
     >
       {props.text}

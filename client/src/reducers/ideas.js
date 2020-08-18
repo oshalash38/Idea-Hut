@@ -3,7 +3,8 @@ import {
   CLEAR_CURR_IDEA,
   GET_IDEAS_BY_ID,
   GET_IDEA,
-  IDEA_ERR
+  IDEA_ERR,
+  GET_ALL_IDEAS
 } from '../actions/types';
 
 const initialState = {
@@ -27,6 +28,7 @@ export default (state = initialState, action) => {
     case GET_IDEA:
       return { ...state, currIdea: payload, loading: false };
     case GET_IDEAS_BY_ID:
+    case GET_ALL_IDEAS:
       return { ...state, ideas: payload, loading: false };
     case CLEAR_CURR_IDEA:
       return {

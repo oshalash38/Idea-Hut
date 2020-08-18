@@ -81,51 +81,56 @@ export const Banner = props => {
             <h1 className='major-heading'>{profile.currProfile.username}</h1>
             <p className='general-paragraph'>{profile.currProfile.bio}</p>
             {profile.currProfile.socials.website && (
-              <i class='fas fa-globe fa-2x p-1'></i>
+              <i className='fas fa-globe fa-2x p-1'></i>
             )}
             {profile.currProfile.socials.github && (
-              <i class='fab fa-github fa-2x p-1'></i>
+              <i className='fab fa-github fa-2x p-1'></i>
             )}
             {profile.currProfile.socials.facebook && (
-              <i class='fab fa-facebook fa-2x p-1'></i>
+              <i className='fab fa-facebook fa-2x p-1'></i>
             )}
             {profile.currProfile.socials.twitter && (
               <i className='fab fa-twitter fa-2x p-1'></i>
             )}
             {profile.currProfile.socials.youtube && (
-              <i class='fab fa-youtube fa-2x p-1'></i>
+              <i className='fab fa-youtube fa-2x p-1'></i>
             )}
             {profile.currProfile.socials.linkedin && (
-              <i class='fab fa-linkedin fa-2x p-1'></i>
+              <i className='fab fa-linkedin fa-2x p-1'></i>
             )}
           </div>
         </div>
       ) : (
-        <div class='idea-top row p-5'>
-          <div class='col-lg-6'>
-            <h1 class='major-heading'>{ideas.currIdea.title}</h1>
-            <p class='general-paragraph'>{ideas.currIdea.shortDescription}</p>
+        <div className='idea-top row p-5'>
+          <div className='col-lg-6'>
+            <h1 className='major-heading'>{ideas.currIdea.title}</h1>
+            <p className='general-paragraph'>
+              {ideas.currIdea.shortDescription}
+            </p>
             <h2>
-              <span class='badge purple'>{ideas.currIdea.category}</span>
+              <span className='badge purple'>{ideas.currIdea.category}</span>
             </h2>
-            <div class='top-padding'>
-              <div class='top-padding'>
-                <i class='fab fa-gratipay fa-2x'></i>
-                <span class='side-number'> {ideas.currIdea.likes.length}</span>
+            <div className='top-padding'>
+              <div className='top-padding'>
+                <i className='fab fa-gratipay fa-2x'></i>
+                <span className='side-number'>
+                  {' '}
+                  {ideas.currIdea.likes.length}
+                </span>
                 <br />
-                <div class='top-padding'>
-                  <i class='fas fa-comments fa-2x'></i>
-                  <span class='side-number'>
+                <div className='top-padding'>
+                  <i className='fas fa-comments fa-2x'></i>
+                  <span className='side-number'>
                     {' '}
                     {ideas.currIdea.comments.length}
                   </span>
                 </div>
               </div>
             </div>
-            <div class='top-padding-some'>
+            <div className='top-padding-some'>
               <a href='signup.html'>
                 <button
-                  class='btn btn-blue right-margin'
+                  className='btn btn-blue right-margin'
                   type='button'
                   name='button'
                 >
@@ -133,14 +138,14 @@ export const Banner = props => {
                 </button>
               </a>
               <a href='signin.html'>
-                <button class='btn btn-pink' type='button' name='button'>
+                <button className='btn btn-pink' type='button' name='button'>
                   I'll Do It!
                 </button>
               </a>
             </div>
           </div>
-          <div class='col-lg-6'>
-            <img class='landing-img xsm-size' src={img3} alt='' />
+          <div className='col-lg-6'>
+            <img className='landing-img xsm-size' src={img3} alt='' />
           </div>
         </div>
       )}

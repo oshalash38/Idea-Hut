@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import { Spinner } from '../layout/Spinner';
 import { Alert } from '../layout/Alert';
 import { CLEAR_CURR_IDEA } from '../../actions/types';
+import { mainCategories } from '../../constants/categories';
 
 export const IdeaForm = () => {
   const dispatch = useDispatch();
@@ -29,8 +30,12 @@ export const IdeaForm = () => {
 
   // useEffect(() => {
   //   dispatch({ type: CLEAR_CURR_IDEA });
-  // }, []);
+  // }, [dispatch]);
+
   useEffect(() => {
+    console.log('alo');
+    console.log(ideas.currIdea);
+
     if (ideas.currIdea) {
       history.push(`/ideas/${ideas.currIdea._id}`);
     }
@@ -39,7 +44,6 @@ export const IdeaForm = () => {
   useEffect(() => {
     if (ideas.errors) {
       setSubmitted(false);
-      console.log('fi errors');
     }
   }, [ideas.errors]);
 
@@ -102,8 +106,11 @@ export const IdeaForm = () => {
             id='ideaCategory'
           >
             <option value='0'>Select Category</option>
-            <option value='Mobile App'>Mobile App</option>
-            <option value='Web App'>Web App</option>
+            {mainCategories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
           </select>
         </div>
         <BlueButton text='Submit Idea' />
