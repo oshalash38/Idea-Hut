@@ -2,7 +2,8 @@ a {
   color: black;
 }
 
-a:hover {
+a:hover,
+.active-btn {
   color: #355c7d;
 }
 

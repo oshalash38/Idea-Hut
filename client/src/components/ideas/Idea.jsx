@@ -11,6 +11,7 @@ import { getCurrProfile, getProfileById } from '../../actions/profile';
 
 export const Idea = ({ match }) => {
   const [ideaIndex, setIdeaIndex] = useState(0);
+  const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const ideas = useSelector(state => state.ideas);
   const profile = useSelector(state => state.profile);
@@ -27,11 +28,14 @@ export const Idea = ({ match }) => {
 
   useEffect(() => {
     if (profile.currProfile && ideas.currIdea) {
-      console.log('bingo');
-
       profile.currProfile.bookmarked.forEach(idea => {
-        if (ideas.currIdea && idea._id === ideas.currIdea._id) {
+        if (idea._id === ideas.currIdea._id) {
           setBookmarked(true);
+        }
+      });
+      ideas.currIdea.likes.forEach(like => {
+        if (like.user === auth.currUser._id) {
+          setLiked(true);
         }
       });
     }
@@ -47,6 +51,8 @@ export const Idea = ({ match }) => {
         color='dark-pink'
         setBookmarked={setBookmarked}
         bookmarked={bookmarked}
+        liked={liked}
+        setLiked={setLiked}
       />
       <CatBar page='idea' ideaIndex={ideaIndex} setIdeaIndex={setIdeaIndex} />
       <div className='p-5'>

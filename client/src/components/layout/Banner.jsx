@@ -22,6 +22,7 @@ export const Banner = props => {
 
   const like = e => {
     dispatch(likeIdea(ideas.currIdea._id));
+    props.setLiked(true);
   };
 
   const handleBookmarked = e => {
@@ -126,7 +127,11 @@ export const Banner = props => {
             <div className='top-padding'>
               <div className='top-padding'>
                 <i
-                  className='fab fa-gratipay fa-2x local-btn'
+                  className={
+                    props.liked
+                      ? 'fab fa-gratipay fa-2x local-btn active-btn'
+                      : 'fab fa-gratipay fa-2x local-btn'
+                  }
                   onClick={like}
                 ></i>
                 <span className='side-number'>
