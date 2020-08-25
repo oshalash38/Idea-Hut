@@ -123,6 +123,19 @@ router.get('/idea/:id', async (req, res) => {
     if (!idea) {
       return res.status(404).json({ msg: 'Idea with this id does not exist.' });
     }
+    for (var i = 0; i < idea.comments.length; i++) {
+      const profile = await Profile.findOne({ user: idea.comments[i].user });
+      if (profile) {
+        idea.comments[i].username = profile.username;
+        idea.comments[i].profile_picture = profile.profile_picture;
+      }
+    }
+
+    await idea.save();
+    console.log(idea);
+
+    // console.log(idea);
+
     res.json(idea);
   } catch (err) {
     console.error(err.message);
@@ -195,9 +208,9 @@ router.put(
       // Create new comment
       const comment = {
         user: req.user.id,
-        text,
-        username,
-        profile_picture
+        text
+        // username,
+        // profile_picture
       };
       idea.comments.push(comment);
       await idea.save();

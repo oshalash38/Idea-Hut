@@ -17,6 +17,7 @@ export const Idea = ({ match }) => {
   const [ideaIndex, setIdeaIndex] = useState(0);
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
+  const [currProfile, setProfile] = useState(null);
   const ideas = useSelector(state => state.ideas);
   const profile = useSelector(state => state.profile);
   const auth = useSelector(state => state.auth);
@@ -53,6 +54,11 @@ export const Idea = ({ match }) => {
       });
     }
   }, [profile.currProfile, ideas.currIdea]);
+
+  // useEffect(() => {
+  //   if (ideaIndex === 1) {
+  //   }
+  // }, [ideaIndex]);
 
   const handleChange = e => {
     setComment({ text: e });
@@ -95,16 +101,21 @@ export const Idea = ({ match }) => {
         ) : (
           <Fragment>
             <Alert />
-            {ideas.currIdea.comments.map(comment => (
-              <IdeaCard
-                key={comment._id}
-                username={comment.username}
-                text={comment.text}
-                profilePicture={comment.profile_picture}
-                date={comment.date}
-                id={comment.user}
-              />
-            ))}
+            {ideas.currIdea.comments.map(comment => {
+              {
+                /* dispatch(getProfileById(comment.user)); */
+              }
+              return (
+                <IdeaCard
+                  key={comment._id}
+                  username={comment.username}
+                  text={comment.text}
+                  profilePicture={comment.profile_picture}
+                  date={comment.date}
+                  id={comment.user}
+                />
+              );
+            })}
 
             {auth.isAuthenticated ? (
               <div className='media'>
