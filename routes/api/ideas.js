@@ -22,8 +22,8 @@ router.post(
         .isEmpty(),
       check(
         'shortDescription',
-        'Short description must be no more than 100 characters'
-      ).isLength({ max: 100 }),
+        'Short description must be no more than 200 characters'
+      ).isLength({ max: 200 }),
       check('detailedDescription', 'A detailed description is required')
         .not()
         .isEmpty(),
@@ -177,7 +177,7 @@ router.put(
         username,
         profile_picture
       };
-      idea.comments.unshift(comment);
+      idea.comments.push(comment);
       await idea.save();
       // Add idea to interacted with ideas & check if its already there
       const found = userProfile.interacted_with.find(currIdea => {

@@ -6,6 +6,9 @@ import testAvatar from '../../img/undraw_male_avatar_323b.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { likeIdea, bookmarkIdea } from '../../actions/ideas';
 import { getProfileById } from '../../actions/profile';
+import { Link } from 'react-router-dom';
+import { fireAlert } from '../../actions/alert';
+import { Alert } from './Alert';
 
 export const Banner = props => {
   const dispatch = useDispatch();
@@ -23,6 +26,10 @@ export const Banner = props => {
   const like = e => {
     dispatch(likeIdea(ideas.currIdea._id));
     props.setLiked(true);
+  };
+
+  const alertUser = e => {
+    dispatch(fireAlert('warning', 'Sign in to like this idea'));
   };
 
   const handleBookmarked = e => {
@@ -70,9 +77,11 @@ export const Banner = props => {
               amazing idea who lacks the technical knowledge to make it come to
               life.{' '}
             </p>
-            <button className='btn btn-blue' type='button' name='button'>
-              Sign up
-            </button>
+            <Link to='/signup'>
+              <button className='btn btn-blue' type='button' name='button'>
+                Sign up
+              </button>
+            </Link>
           </div>
           <div className='col-lg-6 p-5'>
             <img
@@ -117,6 +126,7 @@ export const Banner = props => {
       ) : (
         <div className='idea-top row p-5'>
           <div className='col-lg-6'>
+            <Alert />
             <h1 className='major-heading'>{ideas.currIdea.title}</h1>
             <p className='general-paragraph'>
               {ideas.currIdea.shortDescription}
@@ -132,8 +142,9 @@ export const Banner = props => {
                       ? 'fab fa-gratipay fa-2x local-btn active-btn'
                       : 'fab fa-gratipay fa-2x local-btn'
                   }
-                  onClick={like}
+                  onClick={auth.isAuthenticated ? like : alertUser}
                 ></i>
+
                 <span className='side-number'>
                   {' '}
                   {ideas.currIdea.likes.length}
@@ -147,27 +158,29 @@ export const Banner = props => {
                 </span>
               </div>
             </div>
-            <div className='top-padding-some'>
-              <span>
-                {props.bookmarked ? (
-                  <div>Bookmarked</div>
-                ) : (
-                  <button
-                    className='btn btn-blue right-margin'
-                    type='button'
-                    name='button'
-                    onClick={handleBookmarked}
-                  >
-                    Bookmark
+            {auth.isAuthenticated && (
+              <div className='top-padding-some'>
+                <span>
+                  {props.bookmarked ? (
+                    <div>Bookmarked</div>
+                  ) : (
+                    <button
+                      className='btn btn-blue right-margin'
+                      type='button'
+                      name='button'
+                      onClick={handleBookmarked}
+                    >
+                      Bookmark
+                    </button>
+                  )}
+                </span>
+                <a href='signin.html'>
+                  <button className='btn btn-pink' type='button' name='button'>
+                    I'll Do It!
                   </button>
-                )}
-              </span>
-              <a href='signin.html'>
-                <button className='btn btn-pink' type='button' name='button'>
-                  I'll Do It!
-                </button>
-              </a>
-            </div>
+                </a>
+              </div>
+            )}
           </div>
           <div className='col-lg-6'>
             <img className='landing-img xsm-size' src={img3} alt='' />

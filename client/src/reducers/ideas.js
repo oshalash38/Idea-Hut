@@ -7,7 +7,8 @@ import {
   GET_ALL_IDEAS,
   LIKE_IDEA,
   UPDATE_LIKE,
-  UPDATE_BOOKMARK
+  UPDATE_BOOKMARK,
+  ADD_COMMENT
 } from '../actions/types';
 
 const initialState = {
@@ -37,6 +38,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         currIdea: { ...state.currIdea, likes: payload },
+        loading: false
+      };
+    case ADD_COMMENT:
+      return {
+        ...state,
+        currIdea: { ...state.currIdea, comments: payload },
         loading: false
       };
     case CLEAR_CURR_IDEA:

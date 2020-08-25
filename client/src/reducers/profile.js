@@ -31,7 +31,7 @@ export default (state = initalState, action) => {
     case CLEAROUT_PROFILE:
       return { ...state, currProfile: null, loading: false };
     case PROFILE_ERR:
-      return { ...state, currProfile: null, loading: false, errors: payload };
+      return { ...state, currProfile: null, errors: payload };
     case RESET_LOADING:
       return { ...state, loading: true };
     default:

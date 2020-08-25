@@ -106,7 +106,7 @@ export const IdeaForm = () => {
             id='ideaCategory'
           >
             <option value='0'>Select Category</option>
-            {mainCategories.map((category, index) => (
+            {mainCategories.slice(1).map((category, index) => (
               <option key={index} value={category}>
                 {category}
               </option>

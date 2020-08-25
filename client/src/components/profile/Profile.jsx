@@ -18,6 +18,11 @@ export const Profile = ({ match }) => {
     if (profile.errors.status === 404) {
       return <Signup />;
     } else {
+      if (profile.currProfile) {
+        profile.currProfile.toJSON = () => ({
+          hidden: 'to help redux devtools :)'
+        });
+      }
       dispatch(getProfileById(match.params.id));
     }
   }, [dispatch, match.params.id, profile.errors.status]);

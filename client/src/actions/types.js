@@ -22,3 +22,4 @@ export const CLEAR_CURR_IDEA = 'CLEAR_CURR_IDEA';
 export const UPDATE_LIKE = 'UPDATE_LIKE';
 export const UPDATE_BOOKMARK = 'UPDATE_BOOKMARK';
 export const IDEA_ERR = 'IDEA_ERR';
+export const ADD_COMMENT = 'ADD_COMMENT';

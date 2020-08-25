@@ -2,12 +2,16 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Banner } from '../layout/Banner';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from '../layout/Spinner';
-import { CLEAR_CURR_IDEA } from '../../actions/types';
+import { CLEAR_CURR_IDEA, RESET_LOADING } from '../../actions/types';
 import { CatBar } from '../layout/CatBar';
-import { getIdeaById, loadIdeaPage } from '../../actions/ideas';
+import { getIdeaById, loadIdeaPage, addComment } from '../../actions/ideas';
 import ReactQuill from 'react-quill';
-import avatar from '../../img/undraw_female_avatar_w3jk.svg';
+import testAvatar from '../../img/undraw_female_avatar_w3jk.svg';
 import { getCurrProfile, getProfileById } from '../../actions/profile';
+import { IdeaCard } from './IdeaCard';
+import { fireAlert } from '../../actions/alert';
+import { Alert } from '../layout/Alert';
+import { Link } from 'react-router-dom';
 
 export const Idea = ({ match }) => {
   const [ideaIndex, setIdeaIndex] = useState(0);
@@ -17,12 +21,21 @@ export const Idea = ({ match }) => {
   const profile = useSelector(state => state.profile);
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
+  const [comment, setComment] = useState({ text: null });
+  let b64 = null;
+  let mimeType = null;
+  if (profile.currProfile && profile.currProfile.profile_picture) {
+    const buffer = profile.currProfile.profile_picture;
+    b64 = new Buffer(buffer).toString('base64');
+    mimeType = 'image/jpeg';
+  }
 
   useEffect(() => {
-    dispatch(getProfileById(auth.currUser._id));
+    auth.currUser && dispatch(getProfileById(auth.currUser._id));
     dispatch(getIdeaById(match.params.id));
     return () => {
       dispatch({ type: CLEAR_CURR_IDEA });
+      dispatch({ type: RESET_LOADING });
     };
   }, []);
 
@@ -41,7 +54,24 @@ export const Idea = ({ match }) => {
     }
   }, [profile.currProfile, ideas.currIdea]);
 
-  if (profile.loading || ideas.loading || !ideas.currIdea) {
+  const handleChange = e => {
+    setComment({ text: e });
+  };
+
+  const handleAddComment = e => {
+    if (comment.text) {
+      dispatch(addComment(match.params.id, comment));
+      setComment({ text: null });
+    } else {
+      dispatch(fireAlert('danger', 'Comment cannot be blank'));
+    }
+  };
+
+  if (
+    (auth.isAuthenticated && profile.loading) ||
+    ideas.loading ||
+    !ideas.currIdea
+  ) {
     return <Spinner />;
   }
 
@@ -64,38 +94,72 @@ export const Idea = ({ match }) => {
           />
         ) : (
           <Fragment>
-            <div className='media'>
-              <img class='tiny-avatar mr-3' src={avatar} alt='...' />
-              <div class='media-body'>
-                <div class='card'>
-                  <div class='card-header'>Omar Shalash commented</div>
-                  <div class='card-body'>
-                    <p class='card-text'>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </p>
-                  </div>
-                  <div class='card-footer text-muted'>on 25 June 2020</div>
+            <Alert />
+            {ideas.currIdea.comments.map(comment => (
+              <IdeaCard
+                key={comment._id}
+                username={comment.username}
+                text={comment.text}
+                profilePicture={comment.profile_picture}
+                date={comment.date}
+                id={comment.user}
+              />
+            ))}
+
+            {auth.isAuthenticated ? (
+              <div className='media'>
+                <img
+                  class='tiny-avatar mr-3'
+                  src={
+                    mimeType && b64
+                      ? `data:${mimeType};base64,${b64}`
+                      : testAvatar
+                  }
+                  alt='...'
+                />
+                <div className='media-body'>
+                  <ReactQuill value={comment.text} onChange={handleChange} />
+                  <span class='float-right local-btn'>
+                    <span
+                      onClick={handleAddComment}
+                      class='btn btn-blue mt-3 float-right'
+                      type='button'
+                      name='button'
+                    >
+                      Add Comment
+                    </span>
+                  </span>
                 </div>
-                <div class='vertical-line'></div>
-                <ReactQuill />
-                <span class='float-right local-btn'>
-                  <button
-                    class='btn btn-blue mt-3 float-right'
-                    type='button'
-                    name='button'
-                  >
-                    Add Comment
-                  </button>
-                </span>
               </div>
-            </div>
+            ) : (
+              <div className='media'>
+                <div className='tiny-avatar mr-3'></div>
+                <div className='media-body'>
+                  <div class='alert alert-warning' role='alert'>
+                    <Link to='/signin'>
+                      <button
+                        className='btn btn-pink'
+                        type='button'
+                        name='button'
+                      >
+                        Sign in
+                      </button>
+                    </Link>{' '}
+                    or{' '}
+                    <Link to='/signup'>
+                      <button
+                        className='btn btn-blue'
+                        type='button'
+                        name='button'
+                      >
+                        Sign up
+                      </button>
+                    </Link>{' '}
+                    to comment!
+                  </div>
+                </div>
+              </div>
+            )}
           </Fragment>
         )}
       </div>

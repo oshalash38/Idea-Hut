@@ -7,7 +7,8 @@ import {
   GET_ALL_IDEAS,
   LIKE_IDEA,
   UPDATE_LIKE,
-  UPDATE_BOOKMARK
+  UPDATE_BOOKMARK,
+  ADD_COMMENT
 } from './types';
 import { fireAlert } from './alert';
 import { getProfileById } from './profile';
@@ -105,6 +106,22 @@ export const bookmarkIdea = id => async dispatch => {
   try {
     const res = await api.put(`/ideas/idea/bookmark/${id}`);
     dispatch({ type: UPDATE_BOOKMARK, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: IDEA_ERR,
+      payload: {
+        msg: err.response.statusText + ': ' + err.response.data.msg,
+        status: err.response.status
+      }
+    });
+  }
+};
+
+// Adds a comment to idea with id <id>
+export const addComment = (id, text) => async dispatch => {
+  try {
+    const res = await api.put(`/ideas/idea/comment/${id}`, text);
+    dispatch({ type: ADD_COMMENT, payload: res.data });
   } catch (err) {
     dispatch({
       type: IDEA_ERR,
