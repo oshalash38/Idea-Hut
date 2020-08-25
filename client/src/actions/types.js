@@ -17,6 +17,7 @@ export const CLEAROUT_PROFILE = 'CLEAROUT_PROFILE';
 export const COMPOSE_IDEA = 'COMPOSE_IDEA';
 export const GET_IDEAS_BY_ID = 'GET_IDEAS_BY_ID';
 export const GET_ALL_IDEAS = 'GET_ALL_IDEAS';
+export const GET_IDEA_BATCH = 'GET_IDEA_BATCH';
 export const GET_IDEA = 'GET_IDEA';
 export const CLEAR_CURR_IDEA = 'CLEAR_CURR_IDEA';
 export const UPDATE_LIKE = 'UPDATE_LIKE';

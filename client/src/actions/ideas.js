@@ -8,7 +8,8 @@ import {
   LIKE_IDEA,
   UPDATE_LIKE,
   UPDATE_BOOKMARK,
-  ADD_COMMENT
+  ADD_COMMENT,
+  GET_IDEA_BATCH
 } from './types';
 import { fireAlert } from './alert';
 import { getProfileById } from './profile';
@@ -72,6 +73,22 @@ export const getAllIdeas = () => async dispatch => {
   try {
     const res = await api.get('/ideas/all');
     dispatch({ type: GET_ALL_IDEAS, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: IDEA_ERR,
+      payload: {
+        msg: err.response.statusText + ': ' + err.response.data.msg,
+        status: err.response.status
+      }
+    });
+  }
+};
+
+// Gets batch of ideas
+export const getIdeaBatch = page => async dispatch => {
+  try {
+    const res = await api.get(`/ideas/page/${page}`);
+    dispatch({ type: GET_IDEA_BATCH, payload: res.data });
   } catch (err) {
     dispatch({
       type: IDEA_ERR,

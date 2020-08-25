@@ -91,6 +91,28 @@ router.get('/:category', async (req, res) => {
   }
 });
 
+// @route   GET /api/ideas/page/:page_number
+// @desc    Gets ideas by page
+// @access  Public
+router.get('/page/:page_number', async (req, res) => {
+  const options = {
+    page: req.params.page_number,
+    limit: 10,
+    collation: {
+      locale: 'en'
+    }
+  };
+  try {
+    const result = await Idea.find()
+      .skip(20)
+      .limit(10);
+    res.json(result);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   GET /api/ideas/idea/:id
 // @desc    Gets an idea by its id
 // @access  Public

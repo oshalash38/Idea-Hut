@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Profile = require('./Profile');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const ideaSchema = new mongoose.Schema({
   user: {
@@ -60,5 +61,7 @@ ideaSchema.pre('remove', async function(next) {
   await Profile.updateMany({}, { $pull: { my_ideas: this._id.toString() } });
   next();
 });
+
+ideaSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('idea', ideaSchema);

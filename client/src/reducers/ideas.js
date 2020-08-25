@@ -8,11 +8,13 @@ import {
   LIKE_IDEA,
   UPDATE_LIKE,
   UPDATE_BOOKMARK,
-  ADD_COMMENT
+  ADD_COMMENT,
+  GET_IDEA_BATCH
 } from '../actions/types';
 
 const initialState = {
   ideas: [],
+  hasNextPage: null,
   currIdea: null,
   loading: true,
   errors: {}
@@ -34,6 +36,13 @@ export default (state = initialState, action) => {
     case GET_IDEAS_BY_ID:
     case GET_ALL_IDEAS:
       return { ...state, ideas: payload, loading: false };
+    case GET_IDEA_BATCH:
+      return {
+        ...state,
+        ideas: state.ideas.concat(payload.docs),
+        hasNextPage: payload.hasNextPage,
+        loading: false
+      };
     case UPDATE_LIKE:
       return {
         ...state,

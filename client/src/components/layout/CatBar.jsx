@@ -55,7 +55,7 @@ export const CatBar = props => {
   ) : (
     <ul className='nav justify-content-center cat-bar'>
       {ideaCategories.map((category, index) => (
-        <li className='nav-item'>
+        <li key={index} className='nav-item'>
           <span
             name={index}
             onClick={handleClick}

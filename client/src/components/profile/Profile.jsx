@@ -25,7 +25,7 @@ export const Profile = ({ match }) => {
       }
       dispatch(getProfileById(match.params.id));
     }
-  }, [dispatch, match.params.id, profile.errors.status]);
+  }, [dispatch, match.params.id, profile.errors.status, profile.currProfile]);
 
   useEffect(() => {
     if (profile.currProfile) {
